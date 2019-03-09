@@ -12,21 +12,21 @@ public class LockListener implements DistributeLockListener {
 
     @Override
     public void beforeLock(String category, String key) {
-        logger.info("<<<beforeLock>>>,category:{},key:{}", category, key);
+        logger.info("Thread:{},<<<beforeLock>>>,category:{},key:{}", Thread.currentThread().getId(), category, key);
     }
 
     @Override
     public void onLockSuccess(String category, String key) {
-        logger.info("<<<onLockSuccess>>>,category:{},key:{}", category, key);
+        logger.info("Thread:{},<<<onLockSuccess>>>,category:{},key:{}", Thread.currentThread().getId(), category, key);
     }
 
     @Override
     public void onLockFail(String category, String key, Exception e) {
-        logger.info("<<<onLockFail>>>,category:{},key:{}，ex:{}", category, key, e);
+        logger.info("Thread:{},<<<onLockFail>>>,category:{},key:{}，ex:{}", Thread.currentThread().getId(), category, key, e);
     }
 
     @Override
     public void onUnlock(String category, String key) {
-        logger.info("<<<onUnlock>>>,category:{},key:{}", category, key);
+        logger.info("Thread:{},<<<onUnlock>>>,category:{},key:{}", Thread.currentThread().getId(), category, key);
     }
 }

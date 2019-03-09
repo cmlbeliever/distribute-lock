@@ -43,8 +43,9 @@ public class DistributeLockAspect {
         Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
 
         DistributeLock lock = currentMethod.getAnnotation(DistributeLock.class);
+        String key = (String) parser.parseExpression(lock.key()).getValue(context);
 
-        LockHolder distributeLock = distributeLockService.getLock(lock.category(), lock.key(), lock.timeoutInSeconds());
+        LockHolder distributeLock = distributeLockService.getLock(lock.category(), key, lock.timeoutInSeconds());
         if (distributeLock.isLockSuccess()) {
             try {
                 return point.proceed();
