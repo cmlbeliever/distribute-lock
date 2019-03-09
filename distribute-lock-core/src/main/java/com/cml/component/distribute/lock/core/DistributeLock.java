@@ -32,12 +32,5 @@ public @interface DistributeLock {
      */
     int timeoutInSeconds() default 2;
 
-    /**
-     * key 前缀
-     *
-     * @return
-     */
-    String prefix() default "";
-
     String failMsg() default "您请求的资源正在操作中，请稍后重试";
 }
