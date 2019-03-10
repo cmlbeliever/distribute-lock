@@ -5,9 +5,8 @@ import com.cml.component.distribute.lock.core.DistributeLockService;
 import com.cml.component.distribute.lock.impl.redis.RedisDistributeLockService;
 import com.cml.component.distribute.lock.spring.DistributeLockAspect;
 import org.redisson.Redisson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
@@ -15,17 +14,11 @@ import org.springframework.context.annotation.Bean;
 @AutoConfigureAfter(RedissonAutoConfiguration.class)
 public class DistributeLockAutoConfiguration {
 
-    @ConditionalOnBean({DistributeLockListener.class})
     @Bean
-    public DistributeLockService redisDistributeLockService(DistributeLockListener distributeLockListener, Redisson redisson) {
+    public DistributeLockService redisDistributeLockService(@Autowired(required = false) DistributeLockListener distributeLockListener, Redisson redisson) {
         return new RedisDistributeLockService(distributeLockListener, redisson);
     }
 
-    @ConditionalOnMissingBean(DistributeLockListener.class)
-    @Bean
-    public DistributeLockService redisDistributeLockService(Redisson redisson) {
-        return new RedisDistributeLockService(null, redisson);
-    }
 
     @Bean
     public DistributeLockAspect distributeLockAspect(DistributeLockService distributeLockService) {

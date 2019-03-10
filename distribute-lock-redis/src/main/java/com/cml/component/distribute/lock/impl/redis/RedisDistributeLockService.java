@@ -29,7 +29,7 @@ public class RedisDistributeLockService extends AbstractDefaultDistributeLockSer
             boolean lockResult = lock.tryLock(timeoutInSecond, -1, TimeUnit.SECONDS);
             return new LockHolder(lock, lockResult, key, category);
         } catch (InterruptedException e) {
-            return new LockHolder(e, false, key, category);
+            return new LockHolder(e, false, key, category, e);
         }
     }
 }

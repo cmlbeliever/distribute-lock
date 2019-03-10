@@ -10,12 +10,29 @@ public class LockHolder {
     private boolean lockSuccess;
     private String key;
     private String category;
+    private Exception exception;
+
+    public LockHolder(Object lock, boolean lockSuccess, String key, String category, Exception exception) {
+        this.lock = lock;
+        this.lockSuccess = lockSuccess;
+        this.key = key;
+        this.category = category;
+        this.exception = exception;
+    }
 
     public LockHolder(Object lock, boolean lockSuccess, String key, String category) {
         this.lock = lock;
         this.lockSuccess = lockSuccess;
         this.key = key;
         this.category = category;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 
     public String getKey() {

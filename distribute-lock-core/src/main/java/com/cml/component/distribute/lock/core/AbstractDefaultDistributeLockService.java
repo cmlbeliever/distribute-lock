@@ -10,21 +10,23 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
 
     public LockHolder getLock(String category, String key, int timeoutInSecond) {
         LockHolder lockHolder = null;
-        Exception exception = null;
         try {
             beforeLock(category, key);
             lockHolder = lock(category, key, timeoutInSecond);
-            if (lockHolder != null) {
-                onLockSuccess(category, key);
-            }
         } catch (Exception e) {
-            exception = e;
+            lockHolder = new LockHolder(null, false, key, category, e);
         } finally {
-            if (lockHolder == null) {
-                onLockFail(category, key, exception);
-            }
+            notifyAfterLock(category, key, lockHolder);
         }
         return lockHolder;
+    }
+
+    private void notifyAfterLock(String category, String key, LockHolder lockHolder) {
+        if (lockHolder.isLockSuccess()) {
+            onLockSuccess(category, key);
+        } else {
+            onLockFail(category, key, lockHolder.getException());
+        }
     }
 
     public void unLock(LockHolder lockHolder) {
@@ -56,6 +58,12 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
         }
     }
 
+    /**
+     * @param category
+     * @param key
+     * @param timeoutInSecond
+     * @return never be null
+     */
     protected abstract LockHolder lock(String category, String key, int timeoutInSecond);
 
 

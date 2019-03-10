@@ -6,6 +6,12 @@ package com.cml.component.distribute.lock.core;
  * @Description:
  */
 public interface DistributeLockService {
+    /**
+     * @param category
+     * @param key
+     * @param timeoutInSecond
+     * @return never be null
+     */
     LockHolder getLock(String category, String key, int timeoutInSecond);
 
     void unLock(LockHolder lockHolder);
