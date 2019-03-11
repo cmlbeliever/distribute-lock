@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = {"classpath:application-redis.yaml"})
+@TestPropertySource(properties = {"spring.config.location = classpath:application-redis.yaml"})
 @EnableConfigurationProperties
 @EnableAspectJAutoProxy
 @ContextConfiguration(classes = {LockTestService.class,

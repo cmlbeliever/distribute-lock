@@ -5,9 +5,9 @@ import com.cml.component.distribute.lock.core.DistributeLockService;
 import com.cml.component.distribute.lock.sample.service.LockTestService;
 import com.cml.component.distribute.lock.starter.DistributeLockAutoConfiguration;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.redisson.Redisson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = {"classpath:application-zk.yaml"})
+@TestPropertySource(properties = {"spring.config.location = classpath:application-zk.yaml"})
 @EnableConfigurationProperties
 @EnableAspectJAutoProxy
 @ContextConfiguration(classes = {LockTestService.class,
@@ -51,8 +51,8 @@ public class ZKDistributeLockTest {
      * 可重入锁测试
      */
     @Test
-    public void testReentrantLock() {
-        String key = "testKey";
+    public void testReentrantLock() throws Exception {
+        String key = "testKeyZK";
 
         String result = lockTestService.testLock(key);
 
@@ -60,11 +60,13 @@ public class ZKDistributeLockTest {
 
         result = lockTestService.testReentrantLock(key);
         assert "getLockSuccess".equals(result);
+
+        Thread.sleep(1000);
     }
 
     @Test
     public void testReentrantLockException() throws InterruptedException {
-        String key = "testKey";
+        String key = "testKeyZK";
 
         int sampleCount = 3;
         AtomicInteger successCounter = new AtomicInteger();

@@ -28,10 +28,9 @@ import org.springframework.util.StringUtils;
 @Configuration
 public class DistributeLockAutoConfiguration {
 
-
     @Configuration
     @ConditionalOnProperty(name = "distribute.lock.type", havingValue = "zk")
-    public static class ZKDistributeLockConfigutaion {
+    public static class ZKDistributeLockConfiguration {
 
         @ConditionalOnMissingBean(CuratorFramework.class)
         @Bean
@@ -40,13 +39,14 @@ public class DistributeLockAutoConfiguration {
             return new ZKProperties();
         }
 
-        @Bean
+        @Bean(destroyMethod = "close", initMethod = "start")
         @ConditionalOnMissingBean(CuratorFramework.class)
         public CuratorFramework zkCuratorFramework(ZKProperties zkProperties) {
             RetryPolicy retryPolicy = new ExponentialBackoffRetry(zkProperties.getRetryInterval(), zkProperties.getRetryCount());
             return CuratorFrameworkFactory.builder().retryPolicy(retryPolicy)
                     .connectString(zkProperties.getConnectUrl())
                     .connectionTimeoutMs(zkProperties.getConnTimeout())
+                    .sessionTimeoutMs(zkProperties.getSessionTimeout())
                     .build();
         }
 
@@ -68,7 +68,7 @@ public class DistributeLockAutoConfiguration {
 
     @Configuration
     @ConditionalOnProperty(name = "distribute.lock.type", havingValue = "redis")
-    public static class RedisDistributeLockConfigutaion {
+    public static class RedisDistributeLockConfiguration {
 
         @ConditionalOnMissingBean(Redisson.class)
         @Bean

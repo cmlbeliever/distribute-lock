@@ -1,9 +1,10 @@
+
 distribute:
   lock:
     enable: true
     type: zk
     zk:
-      connTimeout: 1000
+      connTimeout: 15000
       retryCount: 2
       retryInterval: 500
-      connectUrl: 192.168.99.100:2181
+      connectUrl: "192.168.99.100:2181"
