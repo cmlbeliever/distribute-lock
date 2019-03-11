@@ -7,5 +7,5 @@ public interface DistributeLockListener {
 
     void onLockFail(String category, String key, Exception e);
 
-    void onUnlock(String category, String key);
+    void onUnlock(String category, String key,Exception e);
 }

@@ -1,0 +1,13 @@
+distribute:
+  lock:
+    enable: true
+    type: redis
+    redis:
+      enable: true
+      timeout: 1000
+      retryCount: 1
+      retryInterval: 1000
+      password:
+      nodes:
+        - "redis://192.168.99.100:6379"
+      type: single # 可选single，sentinel，master-slave

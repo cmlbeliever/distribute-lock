@@ -1,11 +1,18 @@
 package com.cml.component.distribute.lock.core;
 
+import com.cml.component.distribute.lock.core.key.DefaultKeyGenerator;
+import com.cml.component.distribute.lock.core.key.KeyGenerator;
+
+import java.util.Optional;
+
 public abstract class AbstractDefaultDistributeLockService implements DistributeLockService {
 
     private DistributeLockListener distributeLockListener;
+    private KeyGenerator keyGenerator;
 
-    public AbstractDefaultDistributeLockService(DistributeLockListener distributeLockListener) {
+    public AbstractDefaultDistributeLockService(DistributeLockListener distributeLockListener, KeyGenerator keyGenerator) {
         this.distributeLockListener = distributeLockListener;
+        this.keyGenerator = Optional.ofNullable(keyGenerator).orElse(new DefaultKeyGenerator());
     }
 
     public LockHolder getLock(String category, String key, int timeoutInSecond) {
@@ -31,14 +38,22 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
 
     public void unLock(LockHolder lockHolder) {
         if (lockHolder.shouldUnLock()) {
-            tryUnlock(lockHolder);
-            if (null != distributeLockListener) {
-                distributeLockListener.onUnlock(lockHolder.getCategory(), lockHolder.getKey());
+            try {
+                tryUnlock(lockHolder);
+                notifyUnlock(lockHolder.getCategory(), lockHolder.getKey(), null);
+            } catch (Exception e) {
+                notifyUnlock(lockHolder.getCategory(), lockHolder.getKey(), e);
             }
         }
     }
 
-    protected abstract void tryUnlock(LockHolder lockHolder);
+    private void notifyUnlock(String category, String key, Exception e) {
+        if (null != distributeLockListener) {
+            distributeLockListener.onUnlock(category, key, e);
+        }
+    }
+
+    protected abstract void tryUnlock(LockHolder lockHolder) throws Exception;
 
     private void onLockFail(String category, String key, Exception exception) {
         if (null != distributeLockListener) {
@@ -56,6 +71,10 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
         if (null != distributeLockListener) {
             distributeLockListener.beforeLock(category, key);
         }
+    }
+
+    protected String generateKey(String category, String key) {
+        return keyGenerator.generate(category, key);
     }
 
     /**
