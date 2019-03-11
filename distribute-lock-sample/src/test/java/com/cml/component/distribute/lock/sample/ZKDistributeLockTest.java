@@ -4,6 +4,7 @@ package com.cml.component.distribute.lock.sample;
 import com.cml.component.distribute.lock.core.DistributeLockService;
 import com.cml.component.distribute.lock.sample.service.LockTestService;
 import com.cml.component.distribute.lock.starter.DistributeLockAutoConfiguration;
+import org.apache.curator.framework.CuratorFramework;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.redisson.Redisson;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = {"classpath:application-redis.yaml"})
+@TestPropertySource(locations = {"classpath:application-zk.yaml"})
 @EnableConfigurationProperties
 @EnableAspectJAutoProxy
 @ContextConfiguration(classes = {LockTestService.class,
@@ -34,13 +35,13 @@ import java.util.concurrent.atomic.AtomicInteger;
         PropertySourcesPlaceholderConfigurer.class,
         ConfigurationPropertiesBindingPostProcessorRegistrar.class,
         DistributeLockAutoConfiguration.class}, initializers = ConfigFileApplicationContextInitializer.class)
-public class RedisDistributeLockTest {
+public class ZKDistributeLockTest {
 
     @Autowired
     private LockTestService lockTestService;
 
     @Autowired
-    private Redisson redisson;
+    private CuratorFramework curatorFramework;
     @Autowired
     private DistributeLockService distributeLockService;
     @Autowired

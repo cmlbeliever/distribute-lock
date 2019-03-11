@@ -46,7 +46,7 @@ public class DistributeLockAutoConfiguration {
             RetryPolicy retryPolicy = new ExponentialBackoffRetry(zkProperties.getRetryInterval(), zkProperties.getRetryCount());
             return CuratorFrameworkFactory.builder().retryPolicy(retryPolicy)
                     .connectString(zkProperties.getConnectUrl())
-                    .connectionTimeoutMs(zkProperties.getTimeout())
+                    .connectionTimeoutMs(zkProperties.getConnTimeout())
                     .build();
         }
 

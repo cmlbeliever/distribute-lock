@@ -1,7 +1,7 @@
 package com.cml.component.distribute.lock.starter;
 
 public class ZKProperties {
-    private int timeout = 1000;
+    private int connTimeout = 1000;
     private int retryCount = 3;
     private int retryInterval = 500;
     private String connectUrl;
@@ -22,12 +22,12 @@ public class ZKProperties {
         this.retryInterval = retryInterval;
     }
 
-    public int getTimeout() {
-        return timeout;
+    public int getConnTimeout() {
+        return connTimeout;
     }
 
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
+    public void setConnTimeout(int connTimeout) {
+        this.connTimeout = connTimeout;
     }
 
     public String getConnectUrl() {
