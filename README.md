@@ -87,6 +87,10 @@
     只需要实现接口：DistributeLockListener 即可，详见distribute-lock-sample中的单元测试
  ~~~
  
+ # 项目依赖关系
+ 
+ ![avatar](wiki/struct.png)
+ 
  # 意见与建议
  
  如果使用过程中有任何的意见和建议，欢迎添加issue！！！
