@@ -1,7 +1,9 @@
 package com.cml.component.distribute.lock.starter;
 
+import com.cml.component.distribute.lock.core.DistributeLockHelper;
 import com.cml.component.distribute.lock.core.DistributeLockListener;
 import com.cml.component.distribute.lock.core.DistributeLockService;
+import com.cml.component.distribute.lock.core.key.DefaultKeyGenerator;
 import com.cml.component.distribute.lock.core.key.KeyGenerator;
 import com.cml.component.distribute.lock.impl.redis.RedisDistributeLockService;
 import com.cml.component.distribute.lock.impl.redis.RedisKeyGenerator;
@@ -136,5 +138,16 @@ public class DistributeLockAutoConfiguration {
     @Bean
     public DistributeLockAspect distributeLockAspect(DistributeLockService distributeLockService) {
         return new DistributeLockAspect(distributeLockService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public KeyGenerator defaultKeyGenerate() {
+        return new DefaultKeyGenerator();
+    }
+
+    @Bean
+    public DistributeLockHelper distributeLockHelper(DistributeLockService distributeLockService) {
+        return new DistributeLockHelper(distributeLockService);
     }
 }

@@ -9,10 +9,10 @@ public interface DistributeLockService {
     /**
      * @param category
      * @param key
-     * @param timeoutInSecond
+     * @param timeoutInMills
      * @return never be null
      */
-    LockHolder getLock(String category, String key, int timeoutInSecond);
+    LockHolder getLock(String category, String key, int timeoutInMills);
 
     void unLock(LockHolder lockHolder);
 }

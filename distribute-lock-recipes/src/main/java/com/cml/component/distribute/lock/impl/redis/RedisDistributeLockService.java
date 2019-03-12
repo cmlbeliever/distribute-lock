@@ -24,10 +24,10 @@ public class RedisDistributeLockService extends AbstractDefaultDistributeLockSer
         }
     }
 
-    protected LockHolder lock(String category, String key, int timeoutInSecond) {
+    protected LockHolder lock(String category, String key, int timeoutInMills) {
         RLock lock = redisson.getLock(super.generateKey(category, key));
         try {
-            boolean lockResult = lock.tryLock(timeoutInSecond, -1, TimeUnit.SECONDS);
+            boolean lockResult = lock.tryLock(timeoutInMills, -1, TimeUnit.MILLISECONDS);
             return new LockHolder(lock, lockResult, key, category);
         } catch (InterruptedException e) {
             return new LockHolder(e, false, key, category, e);

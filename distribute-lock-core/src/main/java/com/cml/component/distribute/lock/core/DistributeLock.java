@@ -30,7 +30,7 @@ public @interface DistributeLock {
      *
      * @return
      */
-    int timeoutInSeconds() default 0;
+    int timeoutInMills() default 0;
 
     String failMsg() default "您请求的资源正在操作中，请稍后重试";
 }

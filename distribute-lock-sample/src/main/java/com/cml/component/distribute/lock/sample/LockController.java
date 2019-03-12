@@ -16,4 +16,9 @@ public class LockController {
     public String lock(@RequestParam String key) {
         return lockTestService.testLock(key);
     }
+
+    @GetMapping("/lock2")
+    public String lock2(@RequestParam String key) {
+        return lockTestService.testLock2(key);
+    }
 }

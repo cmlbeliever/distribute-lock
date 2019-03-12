@@ -24,11 +24,11 @@ public class ZKDistributeLockService extends AbstractDefaultDistributeLockServic
         }
     }
 
-    protected LockHolder lock(String category, String key, int timeoutInSecond) {
+    protected LockHolder lock(String category, String key, int timeoutInMills) {
         InterProcessMutex lock = new InterProcessMutex(curatorFramework, generateKey(category, key));
 
         try {
-            if (lock.acquire(timeoutInSecond, TimeUnit.SECONDS)) {
+            if (lock.acquire(timeoutInMills, TimeUnit.MILLISECONDS)) {
                 return new LockHolder(lock, true, key, category);
             }
             return new LockHolder(null, false, key, category);

@@ -5,7 +5,6 @@ import com.cml.component.distribute.lock.core.DistributeLockService;
 import com.cml.component.distribute.lock.sample.service.LockTestService;
 import com.cml.component.distribute.lock.starter.DistributeLockAutoConfiguration;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +46,20 @@ public class ZKDistributeLockTest {
     @Autowired
     private LockListener lockListener;
 
-    /**
-     * 可重入锁测试
-     */
     @Test
     public void testLock() throws Exception {
         String key = "testKeyZK";
 
         String result = lockTestService.testLock(key);
+
+        assert "getLockSuccess".equals(result);
+    }
+
+    @Test
+    public void testManualLock() {
+        String key = "testKey";
+
+        String result = lockTestService.testLock2(key);
 
         assert "getLockSuccess".equals(result);
     }

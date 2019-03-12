@@ -46,14 +46,20 @@ public class RedisDistributeLockTest {
     @Autowired
     private LockListener lockListener;
 
-    /**
-     * 可重入锁测试
-     */
     @Test
-    public void testReentrantLock() {
+    public void testLock() {
         String key = "testKey";
 
         String result = lockTestService.testLock(key);
+
+        assert "getLockSuccess".equals(result);
+    }
+
+    @Test
+    public void testManualLock() {
+        String key = "testKey";
+
+        String result = lockTestService.testLock2(key);
 
         assert "getLockSuccess".equals(result);
     }

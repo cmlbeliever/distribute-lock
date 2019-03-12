@@ -15,11 +15,11 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
         this.keyGenerator = Optional.ofNullable(keyGenerator).orElse(new DefaultKeyGenerator());
     }
 
-    public LockHolder getLock(String category, String key, int timeoutInSecond) {
+    public LockHolder getLock(String category, String key, int timeoutInMills) {
         LockHolder lockHolder = null;
         try {
             beforeLock(category, key);
-            lockHolder = lock(category, key, timeoutInSecond);
+            lockHolder = lock(category, key, timeoutInMills);
         } catch (Exception e) {
             lockHolder = new LockHolder(null, false, key, category, e);
         } finally {
@@ -80,10 +80,10 @@ public abstract class AbstractDefaultDistributeLockService implements Distribute
     /**
      * @param category
      * @param key
-     * @param timeoutInSecond
+     * @param timeoutInMills
      * @return never be null
      */
-    protected abstract LockHolder lock(String category, String key, int timeoutInSecond);
+    protected abstract LockHolder lock(String category, String key, int timeoutInMills);
 
 
 }
