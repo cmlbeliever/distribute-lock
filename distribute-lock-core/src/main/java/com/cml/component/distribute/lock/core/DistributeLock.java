@@ -26,11 +26,11 @@ public @interface DistributeLock {
     String category() default "";
 
     /**
-     * 获取锁最多等待的时间
+     * 获取锁最多等待的时间,0表示直接获取，获取失败不等待。如：1000，表示每次最多会等待1s，如果1s内锁被释放了则会被获取到
      *
      * @return
      */
-    int timeoutInMills() default 0;
+    int maxWaitTimeInMills() default 0;
 
     String failMsg() default "您请求的资源正在操作中，请稍后重试";
 }

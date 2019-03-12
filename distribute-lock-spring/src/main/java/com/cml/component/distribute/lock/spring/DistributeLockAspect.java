@@ -1,11 +1,9 @@
 package com.cml.component.distribute.lock.spring;
 
 import com.cml.component.distribute.lock.core.DistributeLock;
-import com.cml.component.distribute.lock.core.DistributeLockHelper;
 import com.cml.component.distribute.lock.core.DistributeLockService;
 import com.cml.component.distribute.lock.core.LockHolder;
 import com.cml.component.distribute.lock.core.exception.LockFailException;
-import com.cml.component.distribute.lock.core.key.KeyGenerator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -47,7 +45,7 @@ public class DistributeLockAspect {
         DistributeLock lock = currentMethod.getAnnotation(DistributeLock.class);
         String key = (String) parser.parseExpression(lock.key()).getValue(context);
 
-        LockHolder distributeLock = distributeLockService.getLock(lock.category(), key, lock.timeoutInMills());
+        LockHolder distributeLock = distributeLockService.getLock(lock.category(), key, lock.maxWaitTimeInMills());
         if (distributeLock.isLockSuccess()) {
             try {
                 return point.proceed();
