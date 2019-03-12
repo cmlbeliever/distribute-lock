@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -79,8 +80,8 @@ public class DistributeLockAutoConfiguration {
             return new RedisProperties();
         }
 
-        @ConditionalOnMissingBean(Redisson.class)
         @Bean
+        @ConditionalOnMissingBean(Redisson.class)
         public RedissonClient createRedissonClient(RedisProperties redisProperties) {
             Config config = new Config();
             String type = redisProperties.getType();
@@ -122,7 +123,7 @@ public class DistributeLockAutoConfiguration {
 
         @Bean
         @ConditionalOnMissingBean(name = "redisKeyGenerator")
-        public KeyGenerator redisKeyGenerator() {
+        public KeyGenerator redisKeyGenerator(ApplicationContext applicationContext) {
             return new RedisKeyGenerator();
         }
 
