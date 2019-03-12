@@ -56,13 +56,10 @@ public class RedisDistributeLockTest {
         String result = lockTestService.testLock(key);
 
         assert "getLockSuccess".equals(result);
-
-        result = lockTestService.testReentrantLock(key);
-        assert "getLockSuccess".equals(result);
     }
 
     @Test
-    public void testReentrantLockException() throws InterruptedException {
+    public void testMultiThreadLock() throws InterruptedException {
         String key = "testKey";
 
         int sampleCount = 3;
@@ -78,8 +75,6 @@ public class RedisDistributeLockTest {
                 try {
                     countDownLatch.await();
                     String result = lockTestService.testLock(key);
-                    lockTestService.testLock(key);
-                    lockTestService.testLock(key);
                     lockTestService.testLock(key);
                     successCounter.incrementAndGet();
                 } catch (Throwable e) {

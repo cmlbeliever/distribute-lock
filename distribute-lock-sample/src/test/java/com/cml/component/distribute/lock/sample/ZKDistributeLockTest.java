@@ -51,21 +51,16 @@ public class ZKDistributeLockTest {
      * 可重入锁测试
      */
     @Test
-    public void testReentrantLock() throws Exception {
+    public void testLock() throws Exception {
         String key = "testKeyZK";
 
         String result = lockTestService.testLock(key);
 
         assert "getLockSuccess".equals(result);
-
-        result = lockTestService.testReentrantLock(key);
-        assert "getLockSuccess".equals(result);
-
-        Thread.sleep(1000);
     }
 
     @Test
-    public void testReentrantLockException() throws InterruptedException {
+    public void testMultiThreadLock() throws InterruptedException {
         String key = "testKeyZK";
 
         int sampleCount = 3;
@@ -81,8 +76,6 @@ public class ZKDistributeLockTest {
                 try {
                     countDownLatch.await();
                     String result = lockTestService.testLock(key);
-                    lockTestService.testLock(key);
-                    lockTestService.testLock(key);
                     lockTestService.testLock(key);
                     successCounter.incrementAndGet();
                 } catch (Throwable e) {

@@ -15,14 +15,4 @@ public class LockTestService {
         }
         return "getLockSuccess";
     }
-
-    @DistributeLock(category = "lockService", key = "#arg0", timeoutInSeconds = 3)
-    public String testReentrantLock(String key) {
-        try {
-            Thread.sleep(1_000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "getLockSuccess";
-    }
 }

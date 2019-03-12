@@ -27,6 +27,6 @@ public class LockListener implements DistributeLockListener {
 
     @Override
     public void onUnlock(String category, String key, Exception e) {
-        logger.info("Thread:{},<<<onUnlock>>>,category:{},key:{}", Thread.currentThread().getId(), category, key);
+        logger.info("Thread:{},<<<onUnlock>>>,category:{},key:{},ex:{}", Thread.currentThread().getId(), category, key, e);
     }
 }
