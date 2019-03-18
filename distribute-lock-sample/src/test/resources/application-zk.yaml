@@ -7,4 +7,4 @@ distribute:
       connTimeout: 15000
       retryCount: 2
       retryInterval: 500
-      connectUrl: "192.168.99.100:2181"
+      connectUrl: "127.0.0.1:2181"

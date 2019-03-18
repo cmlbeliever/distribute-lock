@@ -2,9 +2,12 @@ package com.cml.component.distribute.lock.sample;
 
 
 import com.cml.component.distribute.lock.core.DistributeLockService;
+import com.cml.component.distribute.lock.sample.container.EmbeddedZooKeeper;
 import com.cml.component.distribute.lock.sample.service.LockTestService;
 import com.cml.component.distribute.lock.starter.DistributeLockAutoConfiguration;
 import org.apache.curator.framework.CuratorFramework;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
         PropertyPlaceholderAutoConfiguration.class,
         PropertySourcesPlaceholderConfigurer.class,
         ConfigurationPropertiesBindingPostProcessorRegistrar.class,
+        EmbeddedZooKeeper.class,
         DistributeLockAutoConfiguration.class}, initializers = ConfigFileApplicationContextInitializer.class)
 public class ZKDistributeLockTest {
 
@@ -45,6 +49,7 @@ public class ZKDistributeLockTest {
     private DistributeLockService distributeLockService;
     @Autowired
     private LockListener lockListener;
+
 
     @Test
     public void testLock() throws Exception {
