@@ -75,7 +75,7 @@
 
 第三步：在需要分布式锁的方法上添加注解：
 ~~~
-    @DistributeLock(category = "lockService", key = "#arg0")
+    @DistributeLock(category = "lockService", key = "#arg0") key配置采用SpEL（Spring Expression Language）表达式，方便使用
 ~~~
 注解说明：
 
